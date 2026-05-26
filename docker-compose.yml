@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    
+    container_name: purchase-predictor-api
+    
+    ports:
+      - "8000:8000"
+    
+    environment:
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - PYTHONUNBUFFERED=1
+    
+    volumes:
+      # Mount the app directory for development (optional)
+      - ./app:/app/app
+      - ./main.py:/app/main.py
+      - ./config.py:/app/config.py
+    
+    restart: unless-stopped
+    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    
+
+# Volume for persistent data (if needed)
+volumes:
+  app_data:
+    driver: local
+
+# Network for inter-service communication
+networks:
+  default:
+    name: purchase-predictor-network
+    driver: bridge
