@@ -1,5 +1,7 @@
 # Purchase Probability Predictor API
 
+![Project Photo](project_photo.png)
+
 A FastAPI-based machine learning service that predicts the probability of a customer making a purchase based on user behavior and item characteristics.
 
 ## Features
